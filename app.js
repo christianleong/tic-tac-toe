@@ -89,10 +89,15 @@ let playerTurn = currentPlayer
 let totalMoves = 0
 
 // event listeners
-restartBtn.addEventListener("click", handleRestart);
+startGame()
 
-for (let box of boxes) {
-    box.addEventListener("click", handleMarker);
+function startGame() {
+    for (let box of boxes) {
+        box.addEventListener("click", handleMarker);
+    }
+    restartBtn.addEventListener("click", handleRestart);
+    h4turn.style.display = "block"
+    gameRunning = true;
 }
     
 // event handlers
@@ -169,10 +174,9 @@ function checkWin() {
             gameRunning = false
         } 
     }
-    if (totalMoves === 9) {
-        winnerText.textContent = "It's a draw!";
-        gameRunning = false;
-        
+    if (totalMoves === 9 && gameRunning === true) {
+      winnerText.textContent = "It's a draw!";
+      gameRunning = false;
     }
 }
 
@@ -193,9 +197,7 @@ function handleRestart(event) {
 
     h4turn.style.display = "none"
     winnerText.textContent = ""
-    gameRunning = true
-
-
+    startGame()
 }
 
 
