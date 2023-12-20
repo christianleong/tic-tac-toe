@@ -3,10 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>hello there</h1>
-    <h2>Test</h2>
+    <div class="grid-wrapper">
+        <h1 class="game-title">Tic-Tac-Toe</h1>
+
+        <section class="scoreboard-section">
+            <div class="score-box">X <span class="x-score-count">NIL</span></div>
+            <div class="score-box">O <span class="o-score-count">NIL</span></div>
+        </section>
+
+        <h4><span class="turn-tracker">X</span> turn</h4>
+        
+        <div class="boardgame-container">
+                <div data-num="0" class="box">0</div>
+                <div data-num="1" class="box">1</div>
+                <div data-num="2" class="box">2</div>
+                <div data-num="3" class="box">3</div>
+                <div data-num="4" class="box">4</div>
+                <div data-num="5" class="box">5</div>
+                <div data-num="6" class="box">6</div>
+                <div data-num="7" class="box">7</div>
+                <div data-num="8" class="box">8</div>
+        </div>
+        <footer class="restart-footer">
+            <button class="restart-btn">Restart Game</button>
+        </footer>
+    </div>
+    <script src="app.js"></script>
 </body>
 </html>
+
+

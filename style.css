@@ -1,0 +1,51 @@
+* {
+    box-sizing: border-box;
+    /* border: 2px solid red; */
+}
+
+.grid-wrapper {
+    display: grid;
+    justify-content: center;
+    /* place-items: center; */
+    /* height: 100vh; */
+}
+
+.game-title {
+    text-align: center;
+}
+
+.scoreboard-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.scoreboard-section .score-box {
+    text-align: center;
+    border: 1px solid black;
+}
+
+h4 {
+    text-align: center;
+}
+
+.boardgame-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+}
+
+.boardgame-container .box {
+    display: grid;
+    height: 100px;
+    width: 100px;
+    place-items: center;
+    font-size: 80px;
+    border: 1px solid black;
+}
+
+.restart-footer {
+    display: grid;
+    justify-content: center;
+    padding-top: 10px;
+    width: 100%;
+}
