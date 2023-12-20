@@ -58,17 +58,11 @@ change cursor/pointer when hover over certain parts
 */
 
 // caching dom element references
-const xScoreCount = document.querySelector(".x-score-count");
-const oScoreCount = document.querySelector(".o-score-count");
-const turnTracker = document.querySelector(".turn-tracker");
-const restartBtn = document.querySelector(".restart-btn");
-
-// event listeners
-restartBtn.addEventListener("click", handleRestart);
-
-// event handlers
-
-// other functions
+// const xScoreCount = document.querySelector(".x-score-count");
+// const oScoreCount = document.querySelector(".o-score-count");
+// const turnTracker = document.querySelector(".turn-tracker");
+// const restartBtn = document.querySelector(".restart-btn");
+// const box = document.querySelectorAll(".box");
 
 const winCombinations = [
   [0, 1, 2],
@@ -81,4 +75,81 @@ const winCombinations = [
   [2, 4, 6],
 ];
 
-let currentPlayer = "X";
+let player1 = "X";
+let player2 = "O";
+
+let choices = ["", "", "", "", "", "", "", "", ""];
+
+choices[4] = player1
+console.log(choices)
+choices[1] = player2
+console.log(choices);
+choices[5] = player1;
+console.log(choices);
+choices[3] = player2;
+console.log(choices);
+choices[2] = player1;
+console.log(choices);
+choices[8] = player2;
+console.log(choices);
+choices[6] = player1;
+console.log(choices);
+
+let xIndex = []
+let oIndex = []
+
+for (let i = 0; i < choices.length; i++) {
+    if (choices[i] === 'X') {
+        xIndex.push(i)
+    }
+}
+
+for (let i = 0; i < choices.length; i++) {
+    if (choices[i] === 'O') {
+        oIndex.push(i)
+    }
+}
+
+console.log(choices(winCombinations[0]));
+
+
+console.log(`x - ${xIndex.toString()}`)
+console.log(`o - ${oIndex.toString()}`)
+console.log(winCombinations[7].toString());
+
+let test1 = xIndex.toString();
+let test2 = winCombinations[7].toString();
+// [ 1, 2, 5, 8 ]
+
+console.log(test1.includes(test2));
+
+console.log(xIndex[4]);
+
+let winArr = []
+
+for (let i = 0; i < xIndex.length; i++) {
+    for (let j = 0; j < 8; j++) {
+        for (let k= 0; k < 3; k++) {
+            if (xIndex[i] === winCombinations[j][k]) {
+                winArr.push(xIndex[i]);
+            }
+        }
+    }
+}
+
+console.log(winArr)
+
+// for (let i = 0; i < winCombinations.length; i++) {
+//     if (winCombinations[i])
+// }
+
+// console.log(choices.indexOf('X'))
+
+// event listeners
+// restartBtn.addEventListener("click", handleRestart);
+
+// event handlers
+
+// other functions
+
+
