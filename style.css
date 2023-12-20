@@ -1,5 +1,6 @@
 * {
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
     /* border: 2px solid red; */
 }
 
@@ -28,10 +29,15 @@ h4 {
     text-align: center;
 }
 
+h5 {
+    text-align: center;
+}
+
 .boardgame-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
+    margin-top: 20px;
 }
 
 .boardgame-container .box {
@@ -41,11 +47,40 @@ h4 {
     place-items: center;
     font-size: 80px;
     border: 1px solid black;
+    cursor: pointer;
+    background: none;
+
+}
+
+.box:hover {
+    background-color: rgb(175, 175, 175, .5);
+    border-radius: 20%;
 }
 
 .restart-footer {
     display: grid;
     justify-content: center;
-    padding-top: 10px;
+    padding-top: 30px;
     width: 100%;
+}
+
+.restart-footer .restart-btn {
+    all: unset;
+    cursor: pointer
+}
+
+.box:nth-child(1) , .box:nth-child(2) , .box:nth-child(3){
+    border-top: none;
+}
+
+.box:nth-child(7) , .box:nth-child(8) , .box:nth-child(9){
+    border-bottom: none;
+}
+
+.box:nth-child(1) , .box:nth-child(4) , .box:nth-child(7){
+    border-left: none;
+}
+
+.box:nth-child(3) , .box:nth-child(6) , .box:nth-child(9){
+    border-right: none;
 }
