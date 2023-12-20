@@ -69,6 +69,7 @@ const turnTracker = document.querySelector(".turn-tracker");
 const restartBtn = document.querySelector(".restart-btn");
 const boxes = document.querySelectorAll(".box");
 const winnerText = document.querySelector('.message')
+const h4turn = document.querySelector('h4')
 
 const winCombinations = [
   [0, 1, 2],
@@ -81,16 +82,151 @@ const winCombinations = [
   [2, 4, 6],
 ];
 
-// let player1 = "X";
-// let player2 = "O";
-
-let currentPlayer = "X"
-
 let choices = ["", "", "", "", "", "", "", "", ""];
-
-// let continueGame = true
-
+let currentPlayer = "X"
+let gameRunning = true
 let playerTurn = currentPlayer
+let totalMoves = 0
+
+// event listeners
+restartBtn.addEventListener("click", handleRestart);
+
+for (let box of boxes) {
+    box.addEventListener("click", handleMarker);
+}
+    
+// event handlers
+function handleMarker(event) {
+    if (gameRunning === true) {
+        let selectedBox = event.target
+        let numChosen = Number(selectedBox.dataset.num);
+
+        if (playerTurn === "X") {
+            selectedBox.textContent = "X"
+            choices[numChosen] = "X";
+            totalMoves++
+            for (let box of boxes) {
+                selectedBox.disabled = true;
+            }
+            console.log(choices);
+            checkWin()
+            changePlayers()
+        } else {
+            selectedBox.textContent = "O";
+            choices[numChosen] = "O";
+            totalMoves++
+            for (let box of boxes) {
+                selectedBox.disabled = true;
+            }
+            console.log(choices);
+            changePlayers()
+            checkWin();
+        }
+    }
+}
+
+function changePlayers() {
+    if (playerTurn === "X") {
+        playerTurn = "O";
+        turnTracker.textContent = "O "
+    } else if (playerTurn === "O") {
+        playerTurn = "X";
+        turnTracker.textContent = "X ";
+    }
+}
+
+let xWinCount = 0;
+let oWinCount = 0;
+
+function checkWin() {
+    const numOfPossibleWins = winCombinations.length
+
+    for (i = 0; i < numOfPossibleWins; i++) {
+        const boxA = choices[winCombinations[i][0]]
+        const boxB = choices[winCombinations[i][1]]
+        const boxC = choices[winCombinations[i][2]]
+        if (boxA === "X" && boxB === "X" && boxC === "X") {
+            winnerText.textContent = "X Wins"
+            xWinCount ++;
+            xScoreCount.textContent = xWinCount;
+
+            boxes[winCombinations[i][0]].classList.add("strike-through");
+            boxes[winCombinations[i][1]].classList.add("strike-through");
+            boxes[winCombinations[i][2]].classList.add("strike-through");
+
+            console.log(`X wins`)
+            gameRunning = false
+        } else if (boxA === "O" && boxB === "O" && boxC === "O") {
+            winnerText.textContent = "O Wins";
+            oWinCount ++;
+            oScoreCount.textContent = oWinCount;
+
+            boxes[winCombinations[i][0]].classList.add("strike-through");
+            boxes[winCombinations[i][1]].classList.add("strike-through");
+            boxes[winCombinations[i][2]].classList.add("strike-through");
+
+            console.log(`O wins`)
+            gameRunning = false
+        } 
+    }
+    if (totalMoves === 9) {
+        winnerText.textContent = "It's a draw!";
+        gameRunning = false;
+        
+    }
+}
+
+function handleRestart(event) {
+    for (let box of boxes) {
+        box.textContent = ""
+        box.disabled = false;
+        box.classList.remove("strike-through");
+    } 
+
+
+    choices = ["", "", "", "", "", "", "", "", ""]
+    totalMoves = 0
+    // xWinCount = 0
+    // oWinCount = 0
+    // xScoreCount.textContent = "NIL"
+    // oScoreCount.textContent = "NIL"    
+
+    h4turn.style.display = "none"
+    winnerText.textContent = ""
+    gameRunning = true
+
+
+}
+
+
+// other functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // choices[4] = player1
 // console.log(choices)
@@ -160,114 +296,3 @@ let playerTurn = currentPlayer
 // }
 
 // console.log(choices.indexOf('X'))
-
-// event listeners
-restartBtn.addEventListener("click", handleRestart);
-
-for (let box of boxes) {
-    box.addEventListener("click", handleMarker);
-}
-    
-
-
-// event handlers
-function handleMarker(event) {
-    let selectedBox = event.target
-    let numChosen = Number(selectedBox.dataset.num);
-
-    if (playerTurn === "X") {
-        selectedBox.textContent = "X"
-        choices[numChosen] = "X";
-        for (let box of boxes) {
-            selectedBox.disabled = true;
-        }
-        console.log(choices);
-        checkWin()
-        changePlayers()
-    } else {
-        selectedBox.textContent = "O";
-        choices[numChosen] = "O";
-        for (let box of boxes) {
-            selectedBox.disabled = true;
-        }
-        console.log(choices);
-        changePlayers()
-        checkWin();
-    }
-}
-
-function changePlayers() {
-    if (playerTurn === "X") {
-        playerTurn = "O";
-        turnTracker.textContent = "O "
-    } else if (playerTurn === "O") {
-        playerTurn = "X";
-        turnTracker.textContent = "X ";
-    }
-}
-
-// function numClicked() {
-
-// }
-
-function checkWin() {
-    const numOfPossibleWins = winCombinations.length
-    let xWinCount = 0
-    let oWinCount = 0
-    for (i = 0; i < numOfPossibleWins; i++) {
-        const boxA = choices[winCombinations[i][0]]
-        const boxB = choices[winCombinations[i][1]]
-        const boxC = choices[winCombinations[i][2]]
-        if (boxA === "X" && boxB === "X" && boxC === "X") {
-            // const statusHeader = document.createElement("h5")
-            // const winMessage = document.createTextNode("X Wins")
-            // statusHeader.appendChild(winMessage)
-            // winnerText.appendChild(statusHeader)
-            winnerText.textContent = "X Wins"
-            xWinCount ++;
-            xScoreCount.textContent = xWinCount;
-            checkBoard()
-            console.log(`X wins`)
-            break
-        } else if (boxA === "O" && boxB === "O" && boxC === "O") {
-            // const statusHeader = document.createElement("h5");
-            // const winMessage = document.createTextNode("O Wins");
-            // statusHeader.appendChild(winMessage);
-            // winnerText.appendChild(statusHeader);
-            winnerText.textContent = "O Wins";
-            oWinCount ++;
-            checkBoard();
-            // debugger
-            oScoreCount.textContent = oWinCount;
-            console.log(`O wins`)
-            break
-        } 
-    }
-}
-
-function handleRestart(event) {
-    // const restartSelected = event.target
-    for (let box of boxes) {
-        box.textContent = ""
-        box.disabled = false;
-    } 
-    // winnerText.removeChild(statusHeader)
-    xWinCount = 0
-    oWinCount = 0
-    xScoreCount.textContent = "NIL"
-    oScoreCount.textContent = "NIL"    
-
-}
-
-function checkBoard() {
-    let countBoxes = 0
-    for (let i = 0; i < 9; i++) {
-        if (choices[i] === "X" || choices[i] === "O") {
-            countBoxes ++
-        }
-    } if (countBoxes === 9) {
-        console.log(`it's a draw`)
-    }
-}
-
-// other functions
