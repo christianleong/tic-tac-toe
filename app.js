@@ -70,6 +70,7 @@ const restartBtn = document.querySelector(".restart-btn");
 const boxes = document.querySelectorAll(".box");
 const winnerText = document.querySelector('.message')
 const h4turn = document.querySelector('h4')
+const scoreBoxes = document.querySelectorAll('.score-box')
 
 const winCombinations = [
   [0, 1, 2],
@@ -100,6 +101,14 @@ function startGame() {
     }
     restartBtn.addEventListener("click", handleRestart);
     h4turn.style.display = "block"
+    debugger
+    if (currentPlayer === "X") {
+        debugger
+        scoreBoxes[0].style.borderBottomColor = "#f4af2d";
+    } else if (currentPlayer === "O") {
+        debugger
+        scoreBoxes[1].style.borderBottomColor = "#f4af2d";
+    }
     gameRunning = true;
 }
     
@@ -116,6 +125,7 @@ function handlePlayerChoice(event) {
             totalMoves++
             selectedBox.disabled = true;
             selectedBox.style.pointerEvents = "none"
+            restartBtn.style.display = "block";
             // console.log(choices);
             checkWin()
             changePlayers()
@@ -126,6 +136,7 @@ function handlePlayerChoice(event) {
             totalMoves++
             selectedBox.disabled = true;
             selectedBox.style.pointerEvents = "none";
+            restartBtn.style.display = "block";
             // console.log(choices);
             changePlayers()
             checkWin();
@@ -135,11 +146,23 @@ function handlePlayerChoice(event) {
 
 function changePlayers() {
     if (currentPlayer === "X") {
+        changeScoreBoxColor(); 
         currentPlayer = "O";
         turnTracker.textContent = "O "
     } else {
+        changeScoreBoxColor(); 
         currentPlayer = "X";
         turnTracker.textContent = "X ";
+    }
+}
+
+function changeScoreBoxColor() {
+    if (currentPlayer === "X") {
+        scoreBoxes[0].style.borderBottomColor = "black";
+        scoreBoxes[1].style.borderBottomColor = "#f4af2d";
+    } else {
+        scoreBoxes[0].style.borderBottomColor = "#f4af2d";
+        scoreBoxes[1].style.borderBottomColor = "black";
     }
 }
 
@@ -180,28 +203,28 @@ function changePlayers() {
 } */
 
 function checkWin() {
-  const numOfPossibleWins = winCombinations.length;
-  for (i = 0; i < numOfPossibleWins; i++) {
-    const boxA = choices[winCombinations[i][0]];
-    const boxB = choices[winCombinations[i][1]];
-    const boxC = choices[winCombinations[i][2]];
-    if (boxA === "X" && boxB === "X" && boxC === "X") {
-      xWinCount++;
-      xScoreCount.textContent = xWinCount;
-      boxes[winCombinations[i][0]].classList.add("strike-through");
-      boxes[winCombinations[i][1]].classList.add("strike-through");
-      boxes[winCombinations[i][2]].classList.add("strike-through");
-      handlePlayerWin("X")
-    } else if (boxA === "O" && boxB === "O" && boxC === "O") {
-      oWinCount++;
-      oScoreCount.textContent = oWinCount;
-      boxes[winCombinations[i][0]].classList.add("strike-through");
-      boxes[winCombinations[i][1]].classList.add("strike-through");
-      boxes[winCombinations[i][2]].classList.add("strike-through");
-      handlePlayerWin("O");
+    const numOfPossibleWins = winCombinations.length;
+    for (i = 0; i < numOfPossibleWins; i++) {
+        const boxA = choices[winCombinations[i][0]];
+        const boxB = choices[winCombinations[i][1]];
+        const boxC = choices[winCombinations[i][2]];
+        if (boxA === "X" && boxB === "X" && boxC === "X") {
+            xWinCount++;
+            xScoreCount.textContent = xWinCount;
+            boxes[winCombinations[i][0]].classList.add("strike-through");
+            boxes[winCombinations[i][1]].classList.add("strike-through");
+            boxes[winCombinations[i][2]].classList.add("strike-through");
+            handlePlayerWin("X")
+        } else if (boxA === "O" && boxB === "O" && boxC === "O") {
+            oWinCount++;
+            oScoreCount.textContent = oWinCount;
+            boxes[winCombinations[i][0]].classList.add("strike-through");
+            boxes[winCombinations[i][1]].classList.add("strike-through");
+            boxes[winCombinations[i][2]].classList.add("strike-through");
+            handlePlayerWin("O");
+        }
     }
-  }
-  checkDraw();
+    checkDraw();
 }
 
 function handlePlayerWin(player) {
@@ -227,10 +250,15 @@ function handleRestart(event) {
         box.style.pointerEvents = "auto";
     } 
 
+    scoreBoxes[0].style.borderBottomColor = "black";
+    scoreBoxes[1].style.borderBottomColor = "black";
+
     choices = ["", "", "", "", "", "", "", "", ""]
     totalMoves = 0
     winnerText.textContent = "";
+    restartBtn.style.display = "none";
     startGame();
+    debugger
 
     // xWinCount = 0
     // oWinCount = 0
