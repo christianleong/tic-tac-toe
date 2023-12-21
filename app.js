@@ -8,25 +8,21 @@ requirements:
 - keep track of multiple game rounds with a win counter
 
 To do
-    do css styling
-    event listeners
-        boxClicked
-    event handlers
-        boxClicked
-        updateBox
-        update score
-        other functions
+
     strike out O
 Doing
-    caching dom element references
+    
 
 Done
+    caching dom element references
     set up boilerplate and html
+        do css styling
     set variables
         winning combinations
         currentplayer (X or O)
         choices
     event listeners
+        boxClicked
         startGame
         restartGame
     event handlers
@@ -34,7 +30,13 @@ Done
         change player
         restartgame
         check winner
+        boxClicked
+        updateBox
+        update score
+        other functions
 
+    
+    nice color scheme   
     different color X and O
     keep track of scores
     Start game or select player (X turn)
@@ -48,7 +50,7 @@ switch players
 
 
 Cosmetics
-nice color scheme
+
 transition/animation when entering into game
     appear from the middle
 transition when placing own choice - 0.5s transition duration
@@ -72,6 +74,10 @@ const winnerText = document.querySelector('.message')
 const h4turn = document.querySelector('h4')
 const scoreBoxes = document.querySelectorAll('.score-box')
 
+const audio1 = new Audio("./audio/711795__plasma4__click-sound.mp3");
+const audio2 = new Audio("./audio/70107__justinbw__power-on.wav");
+const audio3 = new Audio("./audio/681383__kalinkamalinka__an_concerte_hall-05.wav");
+
 const winCombinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -86,62 +92,64 @@ const winCombinations = [
 let choices = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "X"
 let gameRunning = true
-// let playerTurn = currentPlayer
 let totalMoves = 0
 let xWinCount = 0;
 let oWinCount = 0;
 
 // event listeners
-
 startGame()
 
 function startGame() {
     for (let box of boxes) {
         box.addEventListener("click", handlePlayerChoice);
+        box.addEventListener("click", playsound);
     }
     restartBtn.addEventListener("click", handleRestart);
+    restartBtn.addEventListener("click", playsound2);
     h4turn.style.display = "block"
-    debugger
-    if (currentPlayer === "X") {
-        debugger
-        scoreBoxes[0].style.borderBottomColor = "#f4af2d";
-    } else if (currentPlayer === "O") {
-        debugger
-        scoreBoxes[1].style.borderBottomColor = "#f4af2d";
-    }
+    setScoreColours()
     gameRunning = true;
 }
     
 // event handlers
-function handlePlayerChoice(event) {
+function handlePlayerChoice() {
     if (gameRunning === true) {
         let selectedBox = event.target
         let boxIndex = Number(selectedBox.dataset.num);
-
+        totalMoves++;
         if (currentPlayer === "X") {
+            choices[boxIndex] = "X";
             selectedBox.textContent = "X"
             selectedBox.style.color = "#193f4a";
-            choices[boxIndex] = "X";
-            totalMoves++
             selectedBox.disabled = true;
             selectedBox.style.pointerEvents = "none"
             restartBtn.style.display = "block";
-            // console.log(choices);
             checkWin()
             changePlayers()
         } else {
+            choices[boxIndex] = "O";
             selectedBox.textContent = "O";
             selectedBox.style.color = "#fffffe";
-            choices[boxIndex] = "O";
-            totalMoves++
             selectedBox.disabled = true;
             selectedBox.style.pointerEvents = "none";
             restartBtn.style.display = "block";
-            // console.log(choices);
             changePlayers()
             checkWin();
         }
     }
+}
+
+function setScoreColours() {
+    if (currentPlayer === "X") {
+        scoreBoxes[0].style.borderBottomColor = "#f4af2d";
+    } else if (currentPlayer === "O") {
+        scoreBoxes[1].style.borderBottomColor = "#f4af2d";
+    }
+}
+
+function disableBox() {
+    selectedBox.disabled = true;
+    selectedBox.style.pointerEvents = "none";
 }
 
 function changePlayers() {
@@ -165,42 +173,6 @@ function changeScoreBoxColor() {
         scoreBoxes[1].style.borderBottomColor = "black";
     }
 }
-
-/* function checkWin() {
-    const numOfPossibleWins = winCombinations.length
-
-    for (i = 0; i < numOfPossibleWins; i++) {
-        const boxA = choices[winCombinations[i][0]]
-        const boxB = choices[winCombinations[i][1]]
-        const boxC = choices[winCombinations[i][2]]
-        if (boxA === "X" && boxB === "X" && boxC === "X") {
-            winnerText.textContent = "X Wins"
-            xWinCount ++;
-            xScoreCount.textContent = xWinCount;
-
-            boxes[winCombinations[i][0]].classList.add("strike-through");
-            boxes[winCombinations[i][1]].classList.add("strike-through");
-            boxes[winCombinations[i][2]].classList.add("strike-through");
-
-            // console.log(`X wins`)
-            h4turn.style.display = "none";
-            gameRunning = false
-        } else if (boxA === "O" && boxB === "O" && boxC === "O") {
-            winnerText.textContent = "O Wins";
-            oWinCount ++;
-            oScoreCount.textContent = oWinCount;
-
-            boxes[winCombinations[i][0]].classList.add("strike-through");
-            boxes[winCombinations[i][1]].classList.add("strike-through");
-            boxes[winCombinations[i][2]].classList.add("strike-through");
-
-            // console.log(`O wins`)
-            h4turn.style.display = "none";    
-            gameRunning = false
-        } 
-    }
-    checkDraw()
-} */
 
 function checkWin() {
     const numOfPossibleWins = winCombinations.length;
@@ -231,6 +203,7 @@ function handlePlayerWin(player) {
     winnerText.textContent = `${player} Wins`;
     h4turn.style.display = "none";
     gameRunning = false;
+    playsound3();
 }
 
 // potential change this to check if all boxes are disabled
@@ -239,10 +212,12 @@ function checkDraw() {
       winnerText.textContent = "It's a draw!";
       h4turn.style.display = "none";
       gameRunning = false;
+      playsound3();
     }
 }
 
-function handleRestart(event) {
+function handleRestart() {
+    pauseSound3();
     for (let box of boxes) {
         box.textContent = ""
         box.disabled = false;
@@ -252,28 +227,33 @@ function handleRestart(event) {
 
     scoreBoxes[0].style.borderBottomColor = "black";
     scoreBoxes[1].style.borderBottomColor = "black";
-
     choices = ["", "", "", "", "", "", "", "", ""]
     totalMoves = 0
     winnerText.textContent = "";
     restartBtn.style.display = "none";
-    startGame();
-    debugger
+    startGame()
 
-    // xWinCount = 0
-    // oWinCount = 0
-    // xScoreCount.textContent = "NIL"
-    // oScoreCount.textContent = "NIL"  
-    // currentPlayer = "X"
-    // turnTracker.textContent = "X"
 }
 
 
 // other functions
 
+function playsound() {
+    audio1.play();
+}
 
+function playsound2() {
+    audio2.play();
+}
 
+function playsound3() {
+    audio3.play();
+}
 
+function pauseSound3() {
+    audio3.pause();
+    audio3.currentTime = 0;
+}
 
 
 
