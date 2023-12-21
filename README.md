@@ -1,6 +1,6 @@
 #Tic-Tac-Toe-Game
 Welcome to my Tic-Tac-Toe game! 
-#####click here to play - https://christianleong.github.io/tic-tac-toe/
+#####Click here to play - https://christianleong.github.io/tic-tac-toe/
 
 ##About
 Tic-tac-toe is a simple turn based strategy game where 2 players, X and O, take turns marking spaces on a 3 x 3 grid. The first player to place 3 of their marks in a horizontal, vertical, or diagonal line is the winner. 
@@ -11,17 +11,18 @@ Tic-tac-toe is a simple turn based strategy game where 2 players, X and O, take 
 ##Planning & Problem Solving
 ####Problem-solving methodology
 
+
 ####Doodles/planning
 <img src="./images/doodles.jpg" height="700"> 
 
 ####Flow charts of app logic
+<img src="./images/Tic-Tac-Toe.png" height="500">
 
 ##Resouces
 ####Programming languages
 - HTML
 - CSS
 - JavaScript
-
 
 ####Animations
 https://animista.net/
@@ -39,9 +40,11 @@ https://freesound.org/
 
 ##Bugs to fix
 The board should be stationary instead of shifting up when a player wins and down when the game resets.
+Clean up the code so it's more readable (if possible)
 
 ##Lessons learnt
-Firstly, I tried to work out the solution 
+- Start somewhere, don't focus on perfection on the first go
+- Try to code it on your own then look for 'inspiration' in other projects online
 
 ##Ideas
 - Strike through the winning boxes
@@ -49,4 +52,3 @@ Firstly, I tried to work out the solution
 - Clone and add a cool/fun theme
 - Add animation to restart game when it appears
 - Add animation to X and O when they appear on the board
-
