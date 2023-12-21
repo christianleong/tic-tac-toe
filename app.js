@@ -212,7 +212,6 @@ function checkDraw() {
       winnerText.textContent = "It's a draw!";
       h4turn.style.display = "none";
       gameRunning = false;
-      playsound3();
     }
 }
 
