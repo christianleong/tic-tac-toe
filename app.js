@@ -10,16 +10,12 @@ requirements:
 To do
     do css styling
     event listeners
-        startGame
         boxClicked
-        restartGame
     event handlers
         boxClicked
         updateBox
         update score
-        restartgame
         other functions
-        check winner
     strike out O
 Doing
     caching dom element references
@@ -30,22 +26,26 @@ Done
         winning combinations
         currentplayer (X or O)
         choices
+    event listeners
+        startGame
+        restartGame
     event handlers
         update whoseturn
         change player
+        restartgame
+        check winner
 
+    different color X and O
+    keep track of scores
+    Start game or select player (X turn)
+    during game, update message on top to show whose turn is it
+    highlight player/computer box to show whose turn is it
 
 ideas
-Start game or select player (X turn)
-Take turns
-    need to use clearInterval to pause
-during game, update message on top to show whose turn is it
-    highlight player/computer box to show whose turn is it
-keep track of scores
 message 'game over'
 reset game/ restart game
 switch players
-different color X and O
+
 
 Cosmetics
 nice color scheme
@@ -85,15 +85,18 @@ const winCombinations = [
 let choices = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "X"
 let gameRunning = true
-let playerTurn = currentPlayer
+// let playerTurn = currentPlayer
 let totalMoves = 0
+let xWinCount = 0;
+let oWinCount = 0;
 
 // event listeners
+
 startGame()
 
 function startGame() {
     for (let box of boxes) {
-        box.addEventListener("click", handleMarker);
+        box.addEventListener("click", handlePlayerChoice);
     }
     restartBtn.addEventListener("click", handleRestart);
     h4turn.style.display = "block"
@@ -101,29 +104,29 @@ function startGame() {
 }
     
 // event handlers
-function handleMarker(event) {
+function handlePlayerChoice(event) {
     if (gameRunning === true) {
         let selectedBox = event.target
-        let numChosen = Number(selectedBox.dataset.num);
+        let boxIndex = Number(selectedBox.dataset.num);
 
-        if (playerTurn === "X") {
+        if (currentPlayer === "X") {
             selectedBox.textContent = "X"
-            choices[numChosen] = "X";
+            selectedBox.style.color = "#193f4a";
+            choices[boxIndex] = "X";
             totalMoves++
-            for (let box of boxes) {
-                selectedBox.disabled = true;
-            }
-            console.log(choices);
+            selectedBox.disabled = true;
+            selectedBox.style.pointerEvents = "none"
+            // console.log(choices);
             checkWin()
             changePlayers()
         } else {
             selectedBox.textContent = "O";
-            choices[numChosen] = "O";
+            selectedBox.style.color = "#fffffe";
+            choices[boxIndex] = "O";
             totalMoves++
-            for (let box of boxes) {
-                selectedBox.disabled = true;
-            }
-            console.log(choices);
+            selectedBox.disabled = true;
+            selectedBox.style.pointerEvents = "none";
+            // console.log(choices);
             changePlayers()
             checkWin();
         }
@@ -131,19 +134,16 @@ function handleMarker(event) {
 }
 
 function changePlayers() {
-    if (playerTurn === "X") {
-        playerTurn = "O";
+    if (currentPlayer === "X") {
+        currentPlayer = "O";
         turnTracker.textContent = "O "
-    } else if (playerTurn === "O") {
-        playerTurn = "X";
+    } else {
+        currentPlayer = "X";
         turnTracker.textContent = "X ";
     }
 }
 
-let xWinCount = 0;
-let oWinCount = 0;
-
-function checkWin() {
+/* function checkWin() {
     const numOfPossibleWins = winCombinations.length
 
     for (i = 0; i < numOfPossibleWins; i++) {
@@ -159,7 +159,8 @@ function checkWin() {
             boxes[winCombinations[i][1]].classList.add("strike-through");
             boxes[winCombinations[i][2]].classList.add("strike-through");
 
-            console.log(`X wins`)
+            // console.log(`X wins`)
+            h4turn.style.display = "none";
             gameRunning = false
         } else if (boxA === "O" && boxB === "O" && boxC === "O") {
             winnerText.textContent = "O Wins";
@@ -170,12 +171,50 @@ function checkWin() {
             boxes[winCombinations[i][1]].classList.add("strike-through");
             boxes[winCombinations[i][2]].classList.add("strike-through");
 
-            console.log(`O wins`)
+            // console.log(`O wins`)
+            h4turn.style.display = "none";    
             gameRunning = false
         } 
     }
+    checkDraw()
+} */
+
+function checkWin() {
+  const numOfPossibleWins = winCombinations.length;
+  for (i = 0; i < numOfPossibleWins; i++) {
+    const boxA = choices[winCombinations[i][0]];
+    const boxB = choices[winCombinations[i][1]];
+    const boxC = choices[winCombinations[i][2]];
+    if (boxA === "X" && boxB === "X" && boxC === "X") {
+      xWinCount++;
+      xScoreCount.textContent = xWinCount;
+      boxes[winCombinations[i][0]].classList.add("strike-through");
+      boxes[winCombinations[i][1]].classList.add("strike-through");
+      boxes[winCombinations[i][2]].classList.add("strike-through");
+      handlePlayerWin("X")
+    } else if (boxA === "O" && boxB === "O" && boxC === "O") {
+      oWinCount++;
+      oScoreCount.textContent = oWinCount;
+      boxes[winCombinations[i][0]].classList.add("strike-through");
+      boxes[winCombinations[i][1]].classList.add("strike-through");
+      boxes[winCombinations[i][2]].classList.add("strike-through");
+      handlePlayerWin("O");
+    }
+  }
+  checkDraw();
+}
+
+function handlePlayerWin(player) {
+    winnerText.textContent = `${player} Wins`;
+    h4turn.style.display = "none";
+    gameRunning = false;
+}
+
+// potential change this to check if all boxes are disabled
+function checkDraw() {
     if (totalMoves === 9 && gameRunning === true) {
       winnerText.textContent = "It's a draw!";
+      h4turn.style.display = "none";
       gameRunning = false;
     }
 }
@@ -185,19 +224,20 @@ function handleRestart(event) {
         box.textContent = ""
         box.disabled = false;
         box.classList.remove("strike-through");
+        box.style.pointerEvents = "auto";
     } 
-
 
     choices = ["", "", "", "", "", "", "", "", ""]
     totalMoves = 0
+    winnerText.textContent = "";
+    startGame();
+
     // xWinCount = 0
     // oWinCount = 0
     // xScoreCount.textContent = "NIL"
-    // oScoreCount.textContent = "NIL"    
-
-    h4turn.style.display = "none"
-    winnerText.textContent = ""
-    startGame()
+    // oScoreCount.textContent = "NIL"  
+    // currentPlayer = "X"
+    // turnTracker.textContent = "X"
 }
 
 
