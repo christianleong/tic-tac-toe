@@ -1,15 +1,15 @@
-#Tic-Tac-Toe Game
+# Tic-Tac-Toe Game
 Welcome to my Tic-Tac-Toe game! 
-#####Click here to play - https://christianleong.github.io/tic-tac-toe/
+##### Click here to play - https://christianleong.github.io/tic-tac-toe/
 
-##About
+## About
 Tic-tac-toe is a simple turn based strategy game where 2 players, X and O, take turns marking spaces on a 3 x 3 grid. The first player to place 3 of their marks in a horizontal, vertical, or diagonal line is the winner. 
 
-##How it looks
+## How it looks
 <img src="./images/Screenshot.png" height="500">
 
-##Planning & Problem Solving
-####Problem-solving methodology
+## Planning & Problem Solving
+#### Problem-solving methodology
 1. Basic Planning
     - Mark each grid in each row with a number starting from 0 and ending with 8 to represent the index of each grid. (e.g. row 1 will have 0, 1, 2).
     - List the possible win combinations based on the grid numbers from step 1.
@@ -46,23 +46,23 @@ Tic-tac-toe is a simple turn based strategy game where 2 players, X and O, take 
 12. Optimisation
     - Review the code and find ways to make it more readable (e.g. limit repetition by creating a function, remove unnecessary lines and update the wording of varaibles and functions).
 
-####Doodles/planning
+#### Doodles/planning
 <img src="./images/doodles.jpg" height="700"> 
 
-####Flow charts of app logic
+#### Flow charts of app logic
 <img src="./images/Tic-Tac-Toe.png" height="500">
 
-##Resouces
-####Programming languages
+## Resouces
+#### Programming languages
 - HTML
 - CSS
 - JavaScript
 
-####Animations
+#### Animations
 https://animista.net/
 - added some animation to the Game Title and Board for a cool entrance effect.
 
-####Other resources
+#### Other resources
 https://colorhunt.co/
 - used this site for some inspiration on color palettes
 
@@ -72,15 +72,15 @@ https://fonts.google.com/
 https://freesound.org/
 - added some sound effects from this site
 
-##Bugs to fix
+## Bugs to fix
 The board should be stationary instead of shifting up when a player wins and down when the game resets.
 Clean up/simplify the code for better readability (if possible).
 
-##Lessons learnt
+## Lessons learnt
 - Start somewhere, don't focus on perfection on the first go.
 - Try to code it on your own, then look for 'inspiration' in other projects online.
 
-##Ideas
+## Ideas
 - Strike through the winning boxes.
     - Add sound effect when striking through.
 - Add a cool/fun theme.
